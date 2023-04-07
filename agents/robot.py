@@ -1,5 +1,6 @@
 import uuid
 import random
+from base import Base
 
 class Robot:
     def __init__(self, nom, vitesse, capacite, carte):
@@ -36,4 +37,10 @@ class Robot:
 
     def compter_objets(self):
         return len(self.objets_portes)
+        return False
+
+    def ajouter_objet(self, objet, base):
+        if self.deposer_objet(objet):
+            base.ajouter_objet(objet)
+            return True
         return False
