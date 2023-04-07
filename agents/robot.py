@@ -3,7 +3,7 @@ import random
 from base import Base
 
 class Robot:
-    def __init__(self, nom, vitesse, capacite, carte):
+    def __init__(self, nom, vitesse, capacite, carte, equipe=None):
         self.id = uuid.uuid4()
         self.nom = nom
         self.vitesse = vitesse
@@ -11,6 +11,7 @@ class Robot:
         self.carte = carte
         self.row, self.column = self.position_aleatoire_robot()
         self.objets_portes = []
+        self.equipe = equipe
 
     def position_aleatoire_robot(self):
         row = random.randint(0, self.carte.rows - 1)
@@ -34,39 +35,51 @@ class Robot:
         if objet in self.objets_portes:
             self.objets_portes.remove(objet)
             return True
+        return False
 
     def compter_objets(self):
         return len(self.objets_portes)
-        return False
 
     def ajouter_objet(self, objet, base):
         if self.deposer_objet(objet):
             base.ajouter_objet(objet)
             return True
         return False
-    
+
     def se_deplacer_vers_objet(self, objet, base):
-        # Check if robot is carrying any objects and deposit them at the base
+        # Vérifie si le robot transporte des objets et les dépose à la base
         for obj in self.objets_portes:
             self.deposer_objet(obj)
             base.ajouter_objet(obj)
-        
+
         obj_row, obj_col = objet.row, objet.column
         dist_row, dist_col = abs(obj_row - self.row), abs(obj_col - self.column)
         if dist_row > dist_col:
-            # move vertically
+            # se déplace verticalement
             if obj_row < self.row:
                 self.row -= 1
             elif obj_row > self.row:
                 self.row += 1
         else:
-            # move horizontally
+            # se déplace horizontalement
             if obj_col < self.column:
                 self.column -= 1
             elif obj_col > self.column:
                 self.column += 1
-        
-        # If robot has reached the target object, pick it up and take it to the base
+
+        # Si le robot a atteint l'objet cible, le récupère et le ramène à la base
         if self.row == obj_row and self.column == obj_col:
             if self.prendre_objet(objet):
                 self.se_deplacer_vers_objet(base, None)
+
+    def assigner_equipe(self, equipe):
+        self.equipe = equipe
+
+class Equipe:
+    def __init__(self, id):
+        self.id = id
+        self.robots = []
+
+    def ajouter_robot(self, robot):
+        self.robots.append(robot)
+        robot.assigner_equipe(self)
