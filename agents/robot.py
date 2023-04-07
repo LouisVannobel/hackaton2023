@@ -45,6 +45,8 @@ class Robot:
     def ajouter_objet(self, objet, base):
         if self.deposer_objet(objet):
             base.ajouter_objet(objet)
+            if self.equipe is not None:
+                self.equipe.gagner_argent(objet.valeur)
             return True
         return False
 
@@ -88,7 +90,16 @@ class Equipe:
     def __init__(self, id):
         self.id = id
         self.robots = []
+        self.points = 0
+        self.argent = 0
 
     def ajouter_robot(self, robot):
         self.robots.append(robot)
         robot.assigner_equipe(self)
+
+    def gagner_argent(self, montant):
+        self.argent += montant
+        self.points += montant
+
+    def accomplir_tache(self, points_tache):
+        self.points += points_tache
