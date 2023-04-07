@@ -6,6 +6,9 @@ class Base:
 
     def ajouter_objet(self, objet):
         self.stockage.append(objet)
+        
+    def compter_objets(self):
+        return len(self.stockage)
 
 # Création d'une base
 base = Base()
