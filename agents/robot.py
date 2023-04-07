@@ -44,3 +44,19 @@ class Robot:
             base.ajouter_objet(objet)
             return True
         return False
+    
+    def se_deplacer_vers_objet(self, objet):
+        obj_row, obj_col = objet.row, objet.column
+        dist_row, dist_col = abs(obj_row - self.row), abs(obj_col - self.column)
+        if dist_row > dist_col:
+            # move vertically
+            if obj_row < self.row:
+                self.row -= 1
+            elif obj_row > self.row:
+                self.row += 1
+        else:
+            # move horizontally
+            if obj_col < self.column:
+                self.column -= 1
+            elif obj_col > self.column:
+                self.column += 1
