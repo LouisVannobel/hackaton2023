@@ -45,7 +45,12 @@ class Robot:
             return True
         return False
     
-    def se_deplacer_vers_objet(self, objet):
+    def se_deplacer_vers_objet(self, objet, base):
+        # Check if robot is carrying any objects and deposit them at the base
+        for obj in self.objets_portes:
+            self.deposer_objet(obj)
+            base.ajouter_objet(obj)
+        
         obj_row, obj_col = objet.row, objet.column
         dist_row, dist_col = abs(obj_row - self.row), abs(obj_col - self.column)
         if dist_row > dist_col:
@@ -60,3 +65,8 @@ class Robot:
                 self.column -= 1
             elif obj_col > self.column:
                 self.column += 1
+        
+        # If robot has reached the target object, pick it up and take it to the base
+        if self.row == obj_row and self.column == obj_col:
+            if self.prendre_objet(objet):
+                self.se_deplacer_vers_objet(base, None)
