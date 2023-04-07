@@ -3,7 +3,7 @@ import random
 from base import Base
 
 class Robot:
-    def __init__(self, nom, vitesse, capacite, carte, equipe=None):
+    def __init__(self, nom, vitesse, capacite, carte, equipe=None, energie_max=100):
         self.id = uuid.uuid4()
         self.nom = nom
         self.vitesse = vitesse
@@ -11,6 +11,8 @@ class Robot:
         self.carte = carte
         self.row, self.column = self.position_aleatoire_robot()
         self.objets_portes = []
+        self.energie = energie_max
+        self.energie_max = energie_max
         self.equipe = equipe
 
     def position_aleatoire_robot(self):
@@ -74,6 +76,13 @@ class Robot:
 
     def assigner_equipe(self, equipe):
         self.equipe = equipe
+    
+    def recharger(self):
+        for borne in self.carte.bornes_recharge:
+            if borne.row == self.row and borne.column == self.column:
+                self.energie = self.energie_max
+                return True
+        return False
 
 class Equipe:
     def __init__(self, id):
