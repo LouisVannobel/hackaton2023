@@ -13,6 +13,7 @@ class Robot:
         self.objets_portes = []
         self.energie = energie_max
         self.energie_max = energie_max
+        self.energie_par_deplacement = 1
         self.equipe = equipe
 
     def position_aleatoire_robot(self):
@@ -49,7 +50,49 @@ class Robot:
                 self.equipe.gagner_argent(objet.valeur)
             return True
         return False
+        
+    def se_deplacer_vers_borne(self, borne):
+        borne_row, borne_col = borne.row, borne.column
+        dist_row, dist_col = abs(borne_row - self.row), abs(borne_col - self.column)
+        if dist_row > dist_col:
+            # se déplace verticalement
+            if borne_row < self.row:
+                self.row -= 1
+            elif borne_row > self.row:
+                self.row += 1
+        else:
+            # se déplace horizontalement
+            if borne_col < self.column:
+                self.column -= 1
+            elif borne_col > self.column:
+                self.column += 1
 
+        self.energie -= self.energie_par_deplacement
+        
+    def distance_jusqu_a_borne(self):
+        distance_min = float('inf')
+        borne_proche = None
+        for borne in self.carte.bornes_recharge:
+            distance = abs(borne.row - self.row) + abs(borne.column - self.column)
+            if distance < distance_min:
+                distance_min = distance
+                borne_proche = borne
+        return distance_min, borne_proche
+    
+    def se_deplacer_vers_objet(self, objet, base):
+        distance_min, borne_proche = self.distance_jusqu_a_borne()
+        energie_requise = distance_min * self.energie_par_deplacement
+
+        if self.energie < energie_requise:
+            self.se_deplacer_vers_borne(borne_proche)
+            self.recharger()
+        for borne in self.carte.bornes_recharge:
+            distance = abs(borne.row - self.row) + abs(borne.column - self.column)
+            if distance < distance_min:
+                distance_min = distance
+                borne_proche = borne
+        return distance_min, borne_proche
+    
     def se_deplacer_vers_objet(self, objet, base):
         # Vérifie si le robot transporte des objets et les dépose à la base
         for obj in self.objets_portes:
