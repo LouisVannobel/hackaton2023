@@ -1,4 +1,4 @@
-from hackaton2023.environnement.carte import Carte, Tableau
+from environnement.carte import Carte, Tableau
 import uuid
 import random
 import tkinter as tk
