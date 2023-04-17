@@ -82,22 +82,9 @@ class Robot:
     def se_deplacer_vers_objet(self, objet, base):
         distance_min, borne_proche = self.distance_jusqu_a_borne()
         energie_requise = distance_min * self.energie_par_deplacement
-
         if self.energie < energie_requise:
             self.se_deplacer_vers_borne(borne_proche)
             self.recharger()
-        for borne in self.carte.bornes_recharge:
-            distance = abs(borne.row - self.row) + abs(borne.column - self.column)
-            if distance < distance_min:
-                distance_min = distance
-                borne_proche = borne
-        return distance_min, borne_proche
-    
-    def se_deplacer_vers_objet(self, objet, base):
-        # Vérifie si le robot transporte des objets et les dépose à la base
-        for obj in self.objets_portes:
-            self.deposer_objet(obj)
-            base.ajouter_objet(obj)
 
         obj_row, obj_col = objet.row, objet.column
         dist_row, dist_col = abs(obj_row - self.row), abs(obj_col - self.column)
@@ -121,7 +108,7 @@ class Robot:
 
     def assigner_equipe(self, equipe):
         self.equipe = equipe
-    
+
     def recharger(self):
         for borne in self.carte.bornes_recharge:
             if borne.row == self.row and borne.column == self.column:
