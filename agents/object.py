@@ -1,4 +1,5 @@
-from environnement.carte import Carte, Tableau
+from environnement.carte import Tableau
+from environnement import carte
 import uuid
 import random
 import tkinter as tk
