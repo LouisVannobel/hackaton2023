@@ -2,7 +2,9 @@ from tkinter import *
 from PIL import Image, ImageTk  # Importer les modules pour travailler avec les images
 
 class Base:
-    def __init__(self):
+    def __init__(self, row=0, column=0):
+        self.row = row
+        self.column = column
         self.stockage = []
 
     def ajouter_objet(self, objet):

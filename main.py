@@ -8,18 +8,18 @@ from agents.object import Objet
 def main():
     root = tk.Tk()
 
-    # Créez et configurez votre carte
+    # Créer et configurer la carte
     bornes_recharge = [BorneRecharge(5, 5), BorneRecharge(15, 10)]
     tableau = Tableau(root, bornes_recharge=bornes_recharge)
     tableau.pack(side="top", fill="both", expand=True)
 
-    # Créez et configurez votre base
-    base = Base()
+    # Créer et configurer la base
+    base = Base(row=0, column=0)
 
     # Créez et configurez vos objets
     objets = [Objet("Pomme", 5, 1, tableau), Objet("Banane", 3, 2, tableau), Objet("Orange", 4, 3, tableau)]
 
-    # Créez et configurez vos équipes et robots
+    # Créer et configurer les équipes et robots
     equipe1 = Equipe(1)
     equipe2 = Equipe(2)
 

@@ -44,8 +44,4 @@ if __name__ == '__main__':
     current_row, current_column = tableau.position_aleatoire_objet()
     tableau.cell[current_row, current_column].insert(0, "X")
 
-    # Move the object randomly 100 times
-    for i in range(100):
-        current_row, current_column = tableau.move(current_row, current_column)
-
     root.mainloop()

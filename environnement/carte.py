@@ -20,6 +20,12 @@ class Tableau(tk.Frame):
                 
         for borne in self.bornes_recharge:
             self.cell[borne.row, borne.column].config(bg="green")
+            
+    def mise_a_jour(self, row, column, text, color):
+        self.cell[row, column].config(fg=color)
+        self.cell[row, column].delete(0, "end")
+        self.cell[row, column].insert(0, text)
+
 
 if __name__ == '__main__':
     root = tk.Tk()
