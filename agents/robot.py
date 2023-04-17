@@ -1,6 +1,7 @@
+from hackaton2023.environnement.carte import Tableau as Carte
+from hackaton2023.environnement.base import Base
 import uuid
 import random
-from base import Base
 
 class Robot:
     def __init__(self, nom, vitesse, capacite, carte, equipe=None, energie_max=100):
