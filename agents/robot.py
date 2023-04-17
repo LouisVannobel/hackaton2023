@@ -1,5 +1,5 @@
-from hackaton2023.environnement.carte import Tableau as Carte
-from hackaton2023.environnement.base import Base
+from environnement.carte import Tableau as Carte
+from environnement.base import Base
 import uuid
 import random
 
@@ -80,12 +80,12 @@ class Robot:
                 borne_proche = borne
         return distance_min, borne_proche
     
- def se_deplacer_vers_objet(self, objet, base):
-    distance_min, borne_proche = self.distance_jusqu_a_borne()
-    energie_requise = distance_min * self.energie_par_deplacement
-    if self.energie < energie_requise:
-        self.se_deplacer_vers_borne(borne_proche)
-        self.recharger()
+     def se_deplacer_vers_objet(self, objet, base):
+        distance_min, borne_proche = self.distance_jusqu_a_borne()
+        energie_requise = distance_min * self.energie_par_deplacement
+        if self.energie < energie_requise:
+            self.se_deplacer_vers_borne(borne_proche)
+            self.recharger()
 
     obj_row, obj_col = objet.row, objet.column
     dist_row, dist_col = abs(obj_row - self.row), abs(obj_col - self.column)
