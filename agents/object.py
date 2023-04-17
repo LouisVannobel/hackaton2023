@@ -1,3 +1,4 @@
+from hackaton2023.environnement.carte import Carte
 import uuid
 import random
 
