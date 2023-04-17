@@ -1,49 +1,51 @@
 import tkinter as tk
-from environnement.carte import Tableau, BorneRecharge
-from environnement.base import Base
-from environnement.Premier_Robot import Fenetre
-from agents.robot import Robot, Equipe
-from agents.object import Objet
+import random
 
-def main():
+class Tableau(tk.Frame):
+    def __init__(self, parent, rows=30, columns=30):
+        tk.Frame.__init__(self, parent)
+        self.rows = rows
+        self.columns = columns
+        self.cell = {}
+        for row in range(self.rows):
+            for column in range(self.columns):
+                self.cell[row, column] = tk.Entry(self, width=3)
+                self.cell[row, column].grid(row=row, column=column)
+
+    def move(self, row, column):
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        direction = random.choice(directions)
+        new_row = row + direction[0]
+        new_column = column + direction[1]
+        if new_row < 0 or new_row >= self.rows or new_column < 0 or new_column >= self.columns:
+            return row, column
+        self.cell[row, column].delete(0, tk.END)
+        self.cell[new_row, new_column].insert(0, "X")
+        return new_row, new_column
+    
+    def position_aleatoire_objet(self):
+        row = random.randint(0, self.rows - 1)
+        column = random.randint(0, self.columns - 1)
+        return row, column
+    
+    def mise_a_jour(self, row, column, text, color="white"):
+        self.cell[row, column].delete(0, tk.END)
+        self.cell[row, column].insert(0, text)
+        self.cell[row, column].config(bg=color)
+
+
+
+if __name__ == '__main__':
     root = tk.Tk()
-
-    # Créez et configurez votre carte
-    bornes_recharge = [BorneRecharge(5, 5), BorneRecharge(15, 10)]
-    tableau = Tableau(root, bornes_recharge=bornes_recharge)
+    tableau = Tableau(root)
     tableau.pack(side="top", fill="both", expand=True)
 
-    # Créez et configurez votre base
-    base = Base()
+    # Initial position of the object
+    current_row, current_column = tableau.position_aleatoire_objet()
+    tableau.cell[current_row, current_column].insert(0, "X")
 
-    # Créez et configurez vos objets
-    objets = [Objet("Pomme", 5, 1, tableau), Objet("Banane", 3, 2, tableau), Objet("Orange", 4, 3, tableau)]
+    # Move the object randomly 100 times
+    for i in range(100):
+        current_row, current_column = tableau.move(current_row, current_column)
 
-    # Créez et configurez vos équipes et robots
-    equipe1 = Equipe(1)
-    equipe2 = Equipe(2)
-
-    robot1 = Robot("Robot1", 2, 3, tableau, equipe=equipe1)
-    robot2 = Robot("Robot2", 3, 2, tableau, equipe=equipe2)
-
-    equipe1.ajouter_robot(robot1)
-    equipe2.ajouter_robot(robot2)
-
-    def update_simulation():
-        for robot in [robot1, robot2]:
-            for objet in objets:
-                if objet in robot.detecter_objet(objets):
-                    robot.se_deplacer_vers_objet(objet, base)
-                    tableau.mise_a_jour(robot.row, robot.column, "R", "blue")
-                    tableau.mise_a_jour(objet.row, objet.column, "O", "yellow")
-                else:
-                    tableau.move(robot.row, robot.column)
-                    tableau.mise_a_jour(robot.row, robot.column, "R", "blue")
-        root.after(100, update_simulation)
-
-
-    update_simulation()
     root.mainloop()
-
-if __name__ == "__main__":
-    main()
