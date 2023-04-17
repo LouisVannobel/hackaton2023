@@ -80,7 +80,7 @@ class Robot:
                 borne_proche = borne
         return distance_min, borne_proche
     
-     def se_deplacer_vers_objet(self, objet, base):
+    def se_deplacer_vers_objet(self, objet, base):
         distance_min, borne_proche = self.distance_jusqu_a_borne()
         energie_requise = distance_min * self.energie_par_deplacement
         if self.energie < energie_requise:
