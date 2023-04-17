@@ -1,6 +1,7 @@
-from hackaton2023.environnement.carte import Carte
+from hackaton2023.environnement.carte import Carte, Tableau
 import uuid
 import random
+import tkinter as tk
 
 class Objet:
     def __init__(self, nom, poids, valeur, carte):
