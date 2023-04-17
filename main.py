@@ -1,7 +1,7 @@
 import tkinter as tk
-from environnement.carte import Tableau, BorneRecharge
-from environnement.base import Base
-from environnement.Premier_Robot import Fenetre
+from agents.environnement.carte import Tableau, BorneRecharge
+from agents.environnement.base import Base
+from agents.environnement.Premier_Robot import Fenetre
 from agents.robot import Robot, Equipe
 from agents.object import Objet
 
