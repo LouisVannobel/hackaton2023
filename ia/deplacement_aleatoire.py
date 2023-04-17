@@ -22,6 +22,12 @@ class Tableau(tk.Frame):
         self.cell[row, column].delete(0, tk.END)
         self.cell[new_row, new_column].insert(0, "X")
         return new_row, new_column
+    
+    def position_aleatoire_objet(self):
+        row = random.randint(0, self.rows - 1)
+        column = random.randint(0, self.columns - 1)
+        return row, column
+
 
 if __name__ == '__main__':
     root = tk.Tk()
