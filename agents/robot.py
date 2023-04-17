@@ -87,42 +87,43 @@ class Robot:
             self.se_deplacer_vers_borne(borne_proche)
             self.recharger()
 
-    obj_row, obj_col = objet.row, objet.column
-    dist_row, dist_col = abs(obj_row - self.row), abs(obj_col - self.column)
-    if dist_row > dist_col:
-        # se déplace verticalement
-        if obj_row < self.row:
-            self.row -= 1
-        elif obj_row > self.row:
-            self.row += 1
-    else:
-        # se déplace horizontalement
-        if obj_col < self.column:
-            self.column -= 1
-        elif obj_col > self.column:
-            self.column += 1
+        obj_row, obj_col = objet.row, objet.column
+        dist_row, dist_col = abs(obj_row - self.row), abs(obj_col - self.column)
+        if dist_row > dist_col:
+            # se déplace verticalement
+            if obj_row < self.row:
+                self.row -= 1
+            elif obj_row > self.row:
+                self.row += 1
+        else:
+            # se déplace horizontalement
+            if obj_col < self.column:
+                self.column -= 1
+            elif obj_col > self.column:
+                self.column += 1
 
-    # Si le robot a atteint l'objet cible, le récupère et le ramène à la base
-    if self.row == obj_row and self.column == obj_col:
-        if self.prendre_objet(objet):
-            base_row, base_col = base.row, base.column
-            dist_row, dist_col = abs(base_row - self.row), abs(base_col - self.column)
-            if dist_row > dist_col:
-                # se déplace verticalement
-                if base_row < self.row:
-                    self.row -= 1
-                elif base_row > self.row:
-                    self.row += 1
-            else:
-                # se déplace horizontalement
-                if base_col < self.column:
-                    self.column -= 1
-                elif base_col > self.column:
-                    self.column += 1
+        # Si le robot a atteint l'objet cible, le récupère et le ramène à la base
+        if self.row == obj_row and self.column == obj_col:
+            if self.prendre_objet(objet):
+                base_row, base_col = base.row, base.column
+                dist_row, dist_col = abs(base_row - self.row), abs(base_col - self.column)
+                if dist_row > dist_col:
+                    # se déplace verticalement
+                    if base_row < self.row:
+                        self.row -= 1
+                    elif base_row > self.row:
+                        self.row += 1
+                else:
+                    # se déplace horizontalement
+                    if base_col < self.column:
+                        self.column -= 1
+                    elif base_col > self.column:
+                        self.column += 1
 
-            # Si le robot a atteint la base, dépose l'objet et met à jour les points de l'équipe
-            if self.row == base_row and self.column == base_col:
-                self.ajouter_objet(objet, base)
+                # Si le robot a atteint la base, dépose l'objet et met à jour les points de l'équipe
+                if self.row == base_row and self.column == base_col:
+                    self.ajouter_objet(objet, base)
+
 
     def assigner_equipe(self, equipe):
         self.equipe = equipe
